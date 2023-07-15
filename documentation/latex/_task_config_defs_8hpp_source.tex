@@ -1,0 +1,22 @@
+\doxysection{Task\+Config\+Defs.\+hpp}
+\label{_task_config_defs_8hpp_source}\index{D:/development/esp/projects/idf\_4\_0/data\_control\_rework/components/task\_wrapper/TaskConfigDefs.hpp@{D:/development/esp/projects/idf\_4\_0/data\_control\_rework/components/task\_wrapper/TaskConfigDefs.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keyword}{constexpr}\ uint32\_t\ default\_stack\_size\ =\ 4096U;\ }
+\DoxyCodeLine{00002\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keyword}{constexpr}\ UBaseType\_t\ default\_priority\ =\ 8U;\ }
+\DoxyCodeLine{00003\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keyword}{constexpr}\ BaseType\_t\ default\_core\_id\ =\ 0U;\ }
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{struct\ }task\_config\_t}
+\DoxyCodeLine{00007\ \{}
+\DoxyCodeLine{00008\ \ \ uint32\_t\ stack\_size\ =\ default\_stack\_size;\ }
+\DoxyCodeLine{00009\ \ \ UBaseType\_t\ priority\ =\ default\_priority;;\ }
+\DoxyCodeLine{00010\ \ \ BaseType\_t\ core\_id\ =\ default\_core\_id;\ }
+\DoxyCodeLine{00011\ \ \ \textcolor{keywordtype}{bool}\ logging\_en\ =\ \textcolor{keyword}{false};\ \ }
+\DoxyCodeLine{00012\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name\ =\ \textcolor{stringliteral}{"{}unamed"{}};\ }
+\DoxyCodeLine{00013\ \};}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ task\_config\_t\ default\_config;}
+
+\end{DoxyCode}

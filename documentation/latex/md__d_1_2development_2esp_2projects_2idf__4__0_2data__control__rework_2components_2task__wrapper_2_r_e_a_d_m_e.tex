@@ -1,0 +1,198 @@
+\chapter{README}
+\label{md__d_1_2development_2esp_2projects_2idf__4__0_2data__control__rework_2components_2task__wrapper_2_r_e_a_d_m_e}\index{README@{README}}
+\label{md__d_1_2development_2esp_2projects_2idf__4__0_2data__control__rework_2components_2task__wrapper_2_r_e_a_d_m_e_readme-top}%
+  
+
+{\bfseries{Table of Contents}}\begin{adjustwidth}{1em}{0em}
+
+\begin{DoxyEnumerate}
+\item {\texttt{ About}} 
+\item {\texttt{ Getting Started}} 
+\begin{DoxyItemize}
+\item {\texttt{ Adding to Project}} 
+\end{DoxyItemize}
+\item {\texttt{ Usage}} 
+\begin{DoxyItemize}
+\item {\texttt{ Quick Start}} 
+\begin{DoxyItemize}
+\item {\texttt{ Instantiating a Task\+Wrapper Object}} 
+\item {\texttt{ Task Configuration}} 
+\item {\texttt{ Interacting with Tasks}} 
+\end{DoxyItemize}
+\item {\texttt{ Examples}} 
+\end{DoxyItemize}
+\item {\texttt{ License}} 
+\item {\texttt{ Contact}} 
+\end{DoxyEnumerate}\end{adjustwidth}
+\doxysubsection{About}\label{md__d_1_2development_2esp_2projects_2idf__4__0_2data__control__rework_2components_2task__wrapper_2_r_e_a_d_m_e_autotoc_md0}
+\doxyref{Task\+Wrapper}{p.}{class_task_wrapper} is a C++ based component written for esp-\/idf version 4.\+0, intended to simplify the creation and management of tasks within a C++ environment. It allows for the creation of \doxyref{Task\+Wrapper}{p.}{class_task_wrapper} objects which are passed a task function at instantiation. The \doxyref{Task\+Wrapper}{p.}{class_task_wrapper} class interacts with the free\+RTOS api, its public methods can be used to start, suspend, delete, and do various other things to the task the \doxyref{Task\+Wrapper}{p.}{class_task_wrapper} object is managing.\doxysubsection{Getting Started}\label{md__d_1_2development_2esp_2projects_2idf__4__0_2data__control__rework_2components_2task__wrapper_2_r_e_a_d_m_e_autotoc_md1}
+({\texttt{ back to top}})\doxysubsubsection{Adding to Project}\label{md__d_1_2development_2esp_2projects_2idf__4__0_2data__control__rework_2components_2task__wrapper_2_r_e_a_d_m_e_autotoc_md2}
+
+\begin{DoxyEnumerate}
+\item Create a \"{}components\"{} directory in the root workspace directory of your esp-\/idf project if it does not exist already. ~\newline
+
+
+In workspace directory\+: ~\newline
+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{mkdir\ components}
+
+\end{DoxyCode}
+
+\item Cd into the components directory and clone the \doxyref{Task\+Wrapper}{p.}{class_task_wrapper} repo.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd\ components}
+\DoxyCodeLine{git\ clone\ https://github.com/myles-\/parfeniuk/task\_wrapper.git}
+
+\end{DoxyCode}
+
+\item You may have to edit project CMake\+Lists.\+txt file to include the components. ~\newline
+
+
+For example\+: ~\newline
+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{idf\_component\_register(SRC\_DIRS\ "{}."{}\ }
+\DoxyCodeLine{INCLUDE\_DIRS\ "{}"{}\ }
+\DoxyCodeLine{REQUIRES\ task\_wrapper)}
+
+\end{DoxyCode}
+ 
+
+({\texttt{ back to top}})
+\end{DoxyEnumerate}\doxysubsection{Usage}\label{md__d_1_2development_2esp_2projects_2idf__4__0_2data__control__rework_2components_2task__wrapper_2_r_e_a_d_m_e_autotoc_md3}
+({\texttt{ back to top}})\doxysubsubsection{Quick Start}\label{md__d_1_2development_2esp_2projects_2idf__4__0_2data__control__rework_2components_2task__wrapper_2_r_e_a_d_m_e_autotoc_md4}
+This is intended to be a quick-\/guide, api documentation generated with doxygen can be found in the documentation directory of the master branch. ~\newline
+ 
+
+({\texttt{ back to top}})\doxyparagraph{Instantiating a Task\+Wrapper Object}\label{md__d_1_2development_2esp_2projects_2idf__4__0_2data__control__rework_2components_2task__wrapper_2_r_e_a_d_m_e_autotoc_md5}
+To instantiate a \doxyref{Task\+Wrapper}{p.}{class_task_wrapper} object, first declare a task function, then pass it to the \doxyref{Task\+Wrapper}{p.}{class_task_wrapper} constructor.
+
+Example syntax\+: ~\newline
+
+
+
+\begin{DoxyEnumerate}
+\item Task function with void input parameter\+: ~\newline
+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ task\_function();}
+\DoxyCodeLine{TaskWrapper<>\ my\_task(\&task\_function);}
+
+\end{DoxyCode}
+
+\item Task function with non-\/void input parameter\+: ~\newline
+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//where\ T\ is\ any\ data\ type,\ for\ ex.\ uint8\_t,\ bool,\ MyClass,\ etc...}}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ task\_function(T\ *);}
+\DoxyCodeLine{T\ input\_argument\ =\ some\_value;}
+\DoxyCodeLine{TaskWrapper<T>\ my\_task(\&task\_function,\ \&input\_argument);}
+
+\end{DoxyCode}
+
+\item Task function that is a class method\+: ~\newline
+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//in\ MyClass.hpp}}
+\DoxyCodeLine{Class\ MyClass}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\ \ MyClass();\ \textcolor{comment}{//default\ constructor}}
+\DoxyCodeLine{\ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\ \ TaskWrapper<MyClass>\ task;}
+\DoxyCodeLine{\ \ \textcolor{keywordtype}{void}\ task\_function();}
+\DoxyCodeLine{\};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//in\ MyClass.cpp}}
+\DoxyCodeLine{MyClass::MyClass():}
+\DoxyCodeLine{task(task(\&MyClass::task\_function,\ this))}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ task.start\_task();\ \textcolor{comment}{//starts\ task\ when\ MyClass\ object\ is\ created\ (optional)}}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ MyClass::task\_function()}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ \textcolor{comment}{//task\ code\ here}}
+\DoxyCodeLine{\}\ }
+
+\end{DoxyCode}
+ 
+
+({\texttt{ back to top}})
+\end{DoxyEnumerate}\doxyparagraph{Task Configuration}\label{md__d_1_2development_2esp_2projects_2idf__4__0_2data__control__rework_2components_2task__wrapper_2_r_e_a_d_m_e_autotoc_md6}
+Tasks can be configured with various parameters such as stack size, priority, and the id of the core they should be executed on. There are two ways to accomplish this.
+
+
+\begin{DoxyEnumerate}
+\item By passing a \doxyref{task\+\_\+config\+\_\+t}{p.}{structtask__config__t} struct as a secondary argument into a \doxyref{Task\+Wrapper}{p.}{class_task_wrapper} constructor\+: ~\newline
+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{task\_config\_t\ task\_conf\ =}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ .stack\_size\ =\ default\_stack\_size,\ }
+\DoxyCodeLine{\ \ .priority\ =\ default\_priority;;\ }
+\DoxyCodeLine{\ \ .core\_id\ =\ default\_core\_id;\ }
+\DoxyCodeLine{\ \ .logging\_en\ =\ \textcolor{keyword}{false};\ \ }
+\DoxyCodeLine{\ \ .name\ =\ \textcolor{stringliteral}{"{}unamed"{}};\ }
+\DoxyCodeLine{\};}
+\DoxyCodeLine{TaskWrapper<>\ my\_task(\&task\_function,\ task\_conf);\ \textcolor{comment}{//instantiate\ task\ with\ above\ settings}}
+
+\end{DoxyCode}
+
+
+The default settings can been seen in \doxyref{Task\+Config\+Defs.\+hpp}{p.}{_task_config_defs_8hpp_source}
+\item By calling various \doxyref{Task\+Wrapper}{p.}{class_task_wrapper} methods off an existing \doxyref{Task\+Wrapper}{p.}{class_task_wrapper} object\+: ~\newline
+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{my\_task.set\_stack\_size(1024);\ }
+\DoxyCodeLine{my\_task.set\_priority(2);\ }
+
+\end{DoxyCode}
+ 
+
+({\texttt{ back to top}})
+\end{DoxyEnumerate}\doxyparagraph{Interacting with Tasks}\label{md__d_1_2development_2esp_2projects_2idf__4__0_2data__control__rework_2components_2task__wrapper_2_r_e_a_d_m_e_autotoc_md7}
+Tasks can be stopped, started, suspended, and interacted with in various ways by calling \doxyref{Task\+Wrapper}{p.}{class_task_wrapper} methods of an existing \doxyref{Task\+Wrapper}{p.}{class_task_wrapper} object\+: ~\newline
+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{my\_task.start\_task();\ }
+\DoxyCodeLine{my\_task.suspend\_task();\ }
+\DoxyCodeLine{my\_task.delete\_task();\ }
+
+\end{DoxyCode}
+ Documentation for the full list of methods can be found in the documentation directory of the master branch. 
+
+({\texttt{ back to top}})\doxysubsubsection{Examples}\label{md__d_1_2development_2esp_2projects_2idf__4__0_2data__control__rework_2components_2task__wrapper_2_r_e_a_d_m_e_autotoc_md8}
+Examples are available in the \doxyref{Task\+Wrapper}{p.}{class_task_wrapper} directory of my esp\+\_\+idf\+\_\+cpp\+\_\+examples repo\+: ~\newline
+
+
+{\texttt{ https\+://github.\+com/myles-\/parfeniuk/esp\+\_\+idf\+\_\+cpp\+\_\+examples}}
+
+My other components Button\+Driver and Data\+Control also utilize \doxyref{Task\+Wrapper}{p.}{class_task_wrapper}\+:
+
+{\texttt{ https\+://github.\+com/myles-\/parfeniuk/button\+\_\+driver}} {\texttt{ https\+://github.\+com/myles-\/parfeniuk/data\+\_\+control}} 
+
+({\texttt{ back to top}})\doxysubsection{License}\label{md__d_1_2development_2esp_2projects_2idf__4__0_2data__control__rework_2components_2task__wrapper_2_r_e_a_d_m_e_autotoc_md9}
+Distributed under the MIT License. See {\ttfamily LICENSE.\+md} for more information. 
+
+({\texttt{ back to top}})\doxysubsection{Contact}\label{md__d_1_2development_2esp_2projects_2idf__4__0_2data__control__rework_2components_2task__wrapper_2_r_e_a_d_m_e_autotoc_md10}
+Myles Parfeniuk -\/ {\texttt{ myles.\+parfenyuk@gmail.\+com}}
+
+Project Link\+: {\texttt{ https\+://github.\+com/myles-\/parfeniuk/data\+\_\+control}} 
+
+({\texttt{ back to top}})

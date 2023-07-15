@@ -1,0 +1,311 @@
+\doxysection{Task\+Wrapper$<$ T $>$ Class Template Reference}
+\label{class_task_wrapper}\index{TaskWrapper$<$ T $>$@{TaskWrapper$<$ T $>$}}
+
+
+Encapsulates a task and implements methods to interact with it. ~\newline
+  
+
+
+
+
+{\ttfamily \#include $<$Task\+Wrapper.\+hpp$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ Task\+Wrapper} (std\+::function$<$ void(void)$>$ \textbf{ task}, const \textbf{ task\+\_\+config\+\_\+t} \textbf{ task\+\_\+config}=default\+\_\+config)
+\begin{DoxyCompactList}\small\item\em Construct a \doxyref{Task\+Wrapper}{p.}{class_task_wrapper} object with a void input parameter task. \end{DoxyCompactList}\item 
+\textbf{ Task\+Wrapper} (std\+::function$<$ void(T $\ast$)$>$ \textbf{ task}, T $\ast$\textbf{ task\+\_\+input}, const \textbf{ task\+\_\+config\+\_\+t} \textbf{ task\+\_\+config}=default\+\_\+config)
+\begin{DoxyCompactList}\small\item\em Construct a \doxyref{Task\+Wrapper}{p.}{class_task_wrapper} object with a non-\/void input parameter task. \end{DoxyCompactList}\item 
+bool \textbf{ start\+\_\+task} ()
+\begin{DoxyCompactList}\small\item\em Start the task function. \end{DoxyCompactList}\item 
+bool \textbf{ delete\+\_\+task} ()
+\begin{DoxyCompactList}\small\item\em Deletes task. \end{DoxyCompactList}\item 
+bool \textbf{ suspend\+\_\+task} ()
+\begin{DoxyCompactList}\small\item\em Suspends task. \end{DoxyCompactList}\item 
+bool \textbf{ resume\+\_\+task} ()
+\begin{DoxyCompactList}\small\item\em Resumes task. \end{DoxyCompactList}\item 
+bool \textbf{ resume\+\_\+task\+\_\+from\+\_\+isr} ()
+\begin{DoxyCompactList}\small\item\em Resumes task from context of ISR. \end{DoxyCompactList}\item 
+void \textbf{ set\+\_\+stack\+\_\+size} (uint32\+\_\+t new\+\_\+stack\+\_\+size)
+\begin{DoxyCompactList}\small\item\em Sets task stack size. \end{DoxyCompactList}\item 
+void \textbf{ set\+\_\+priority} (UBase\+Type\+\_\+t priority)
+\begin{DoxyCompactList}\small\item\em Sets task priority. \end{DoxyCompactList}\item 
+uint16\+\_\+t \textbf{ get\+\_\+high\+\_\+water\+\_\+mark} ()
+\begin{DoxyCompactList}\small\item\em Returns minimum free stack space in bytes. \end{DoxyCompactList}\item 
+Task\+Handle\+\_\+t \& \textbf{ get\+\_\+task\+\_\+handle} ()
+\begin{DoxyCompactList}\small\item\em Returns the task handle. \end{DoxyCompactList}\item 
+\label{class_task_wrapper_aca4cea9a12ba3db6859170ef119c5c0a} 
+bool {\bfseries is\+\_\+active} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \textbf{ task\+\_\+trampoline} (void $\ast$arg)
+\begin{DoxyCompactList}\small\item\em Launches task. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\label{class_task_wrapper_a1d40074734974eb68dca75d4b8efb17b} 
+std\+::function$<$ void(T $\ast$)$>$ {\bfseries task}
+\begin{DoxyCompactList}\small\item\em task function \end{DoxyCompactList}\item 
+\label{class_task_wrapper_a4b2060de484d78f0027a38c2f84488d5} 
+T $\ast$ {\bfseries task\+\_\+input}
+\begin{DoxyCompactList}\small\item\em the input parameter that will be passed into task function when it is started \end{DoxyCompactList}\item 
+\label{class_task_wrapper_a81985be8baa764f9f7b81ed7ad4bef6f} 
+Task\+Handle\+\_\+t {\bfseries task\+\_\+hdl}
+\begin{DoxyCompactList}\small\item\em task handle of task function \end{DoxyCompactList}\item 
+\label{class_task_wrapper_a70247b40facf3496a3d43716496e52c6} 
+\textbf{ task\+\_\+config\+\_\+t} {\bfseries task\+\_\+config}
+\begin{DoxyCompactList}\small\item\em task config settings \end{DoxyCompactList}\item 
+\label{class_task_wrapper_ad55e315cbd9aa82cfe2947e53b0b3819} 
+bool {\bfseries task\+\_\+active}
+\begin{DoxyCompactList}\small\item\em whether or not the task is currently running, false if not started or suspended \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\label{class_task_wrapper_aaf6171edd6fea14d2d28ac26a6aafbcd} 
+static const constexpr char $\ast$ {\bfseries TAG} = \"{}Task\+Wrapper\"{}
+\begin{DoxyCompactList}\small\item\em class tag, used in debug logs \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class T = void $\ast$$>$\newline
+class Task\+Wrapper$<$ T $>$}
+Encapsulates a task and implements methods to interact with it. ~\newline
+ 
+
+Creates a task object which is passed a task function. The task can then be started, suspended, resumed, or deleted through other methods within this class.
+
+\begin{DoxyAuthor}{Author}
+Myles Parfeniuk 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\label{class_task_wrapper_a9f23ae250e066b2b379070765437f120} 
+\index{TaskWrapper$<$ T $>$@{TaskWrapper$<$ T $>$}!TaskWrapper@{TaskWrapper}}
+\index{TaskWrapper@{TaskWrapper}!TaskWrapper$<$ T $>$@{TaskWrapper$<$ T $>$}}
+\doxysubsubsection{TaskWrapper()\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T  = void $\ast$$>$ \\
+\textbf{ Task\+Wrapper}$<$ T $>$\textbf{ \+::\+Task\+Wrapper} (\begin{DoxyParamCaption}\item[{std\+::function$<$ void(void)$>$}]{task,  }\item[{const \textbf{ task\+\_\+config\+\_\+t}}]{task\+\_\+config = {\ttfamily default\+\_\+config} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Construct a \doxyref{Task\+Wrapper}{p.}{class_task_wrapper} object with a void input parameter task. 
+
+Construct a \doxyref{Task\+Wrapper}{p.}{class_task_wrapper} according to input parameters. The task function is the only mandatory parameter.
+
+Should be declared with the following syntax if outside of class\+:
+
+void task\+\_\+function(); Task\+Wrapper$<$$>$ my\+\_\+task(\&task\+\_\+function);
+
+Should be declared with the following syntax if inside of class (where task\+\_\+function is class method)\+: void task\+\_\+function(); Task\+Wrapper$<$\+My\+Class\+Name$>$ my\+\_\+task(std\+::bind(\&\+My\+Class\+Name\+::task\+\_\+function, this));
+
+
+\begin{DoxyParams}{Parameters}
+{\em task} & task function, must take the form \"{}void my\+\_\+task(void)\"{} \\
+\hline
+{\em task\+\_\+config} & configuration settings for task, (optional, see default\+\_\+config)\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_task_wrapper_a8a4afc5c9bd96d8c00b8c9beacfbb6c8} 
+\index{TaskWrapper$<$ T $>$@{TaskWrapper$<$ T $>$}!TaskWrapper@{TaskWrapper}}
+\index{TaskWrapper@{TaskWrapper}!TaskWrapper$<$ T $>$@{TaskWrapper$<$ T $>$}}
+\doxysubsubsection{TaskWrapper()\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T  = void $\ast$$>$ \\
+\textbf{ Task\+Wrapper}$<$ T $>$\textbf{ \+::\+Task\+Wrapper} (\begin{DoxyParamCaption}\item[{std\+::function$<$ void(T $\ast$)$>$}]{task,  }\item[{T $\ast$}]{task\+\_\+input,  }\item[{const \textbf{ task\+\_\+config\+\_\+t}}]{task\+\_\+config = {\ttfamily default\+\_\+config} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Construct a \doxyref{Task\+Wrapper}{p.}{class_task_wrapper} object with a non-\/void input parameter task. 
+
+Construct a \doxyref{Task\+Wrapper}{p.}{class_task_wrapper} according to input parameters. The task function and task input are the only mandatory parameters
+
+Should be declared with the following syntax\+:
+
+void task\+\_\+function(\+T $\ast$); T my\+\_\+data = some\+\_\+value; Task\+Wrapper$<$\+T$>$ my\+\_\+task(\&task\+\_\+function, \&input\+\_\+data);
+
+
+\begin{DoxyParams}{Parameters}
+{\em task} & task function, must take the form \"{}void my\+\_\+task(\+T$\ast$ input\+\_\+param)\"{} \\
+\hline
+{\em task\+\_\+input} & a pointer to the task function input parameter \\
+\hline
+{\em task\+\_\+config} & configuration settings for task, (optional, see default\+\_\+config)\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Function Documentation}
+\label{class_task_wrapper_a876cb2c347361376fe5889feaad5af95} 
+\index{TaskWrapper$<$ T $>$@{TaskWrapper$<$ T $>$}!delete\_task@{delete\_task}}
+\index{delete\_task@{delete\_task}!TaskWrapper$<$ T $>$@{TaskWrapper$<$ T $>$}}
+\doxysubsubsection{delete\_task()}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+bool \textbf{ Task\+Wrapper}$<$ T $>$\+::delete\+\_\+task}
+
+
+
+Deletes task. 
+
+Calls v\+Task\+Delete() from the free\+RTOS api.
+
+\begin{DoxyReturn}{Returns}
+True if task successfully deleted, false if task is not started 
+\end{DoxyReturn}
+\label{class_task_wrapper_a68b2c463b0727e0fcbbae3ebf9b92dfb} 
+\index{TaskWrapper$<$ T $>$@{TaskWrapper$<$ T $>$}!get\_high\_water\_mark@{get\_high\_water\_mark}}
+\index{get\_high\_water\_mark@{get\_high\_water\_mark}!TaskWrapper$<$ T $>$@{TaskWrapper$<$ T $>$}}
+\doxysubsubsection{get\_high\_water\_mark()}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+uint16\+\_\+t \textbf{ Task\+Wrapper}$<$ T $>$\+::get\+\_\+high\+\_\+water\+\_\+mark}
+
+
+
+Returns minimum free stack space in bytes. 
+
+Calls ux\+Task\+Get\+Stack\+High\+Water\+Mark from the free\+RTOS api.
+
+\begin{DoxyReturn}{Returns}
+the free stack space of the task (in bytes) 
+\end{DoxyReturn}
+\label{class_task_wrapper_ad60492fc15b806df91d0ab828ca78d5e} 
+\index{TaskWrapper$<$ T $>$@{TaskWrapper$<$ T $>$}!get\_task\_handle@{get\_task\_handle}}
+\index{get\_task\_handle@{get\_task\_handle}!TaskWrapper$<$ T $>$@{TaskWrapper$<$ T $>$}}
+\doxysubsubsection{get\_task\_handle()}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+Task\+Handle\+\_\+t \& \textbf{ Task\+Wrapper}$<$ T $>$\+::get\+\_\+task\+\_\+handle}
+
+
+
+Returns the task handle. 
+
+Returns the task handle of the task encapsulated by this \doxyref{Task\+Wrapper}{p.}{class_task_wrapper} object. May be used if it is desired to call functions from the free\+RTOS api directly.
+
+\begin{DoxyReturn}{Returns}
+the free stack space of the task (in bytes) 
+\end{DoxyReturn}
+\label{class_task_wrapper_af84cd5e73ae90cfabd9816d8d0b8028d} 
+\index{TaskWrapper$<$ T $>$@{TaskWrapper$<$ T $>$}!resume\_task@{resume\_task}}
+\index{resume\_task@{resume\_task}!TaskWrapper$<$ T $>$@{TaskWrapper$<$ T $>$}}
+\doxysubsubsection{resume\_task()}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+bool \textbf{ Task\+Wrapper}$<$ T $>$\+::resume\+\_\+task}
+
+
+
+Resumes task. 
+
+Calls v\+Task\+Resume() from the free\+RTOS api.
+
+\begin{DoxyReturn}{Returns}
+True if task successfully resumed, false if task is not started 
+\end{DoxyReturn}
+\label{class_task_wrapper_a16eded9d318d210aa1175b9a0aec7bef} 
+\index{TaskWrapper$<$ T $>$@{TaskWrapper$<$ T $>$}!resume\_task\_from\_isr@{resume\_task\_from\_isr}}
+\index{resume\_task\_from\_isr@{resume\_task\_from\_isr}!TaskWrapper$<$ T $>$@{TaskWrapper$<$ T $>$}}
+\doxysubsubsection{resume\_task\_from\_isr()}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+bool \textbf{ Task\+Wrapper}$<$ T $>$\+::resume\+\_\+task\+\_\+from\+\_\+isr}
+
+
+
+Resumes task from context of ISR. 
+
+This method should be called instead of \doxyref{resume\+\_\+task()}{p.}{class_task_wrapper_af84cd5e73ae90cfabd9816d8d0b8028d} if suspending a task from the context of an ISR is desired.
+
+\begin{DoxyReturn}{Returns}
+True if task successfully resumed, false if task is not started 
+\end{DoxyReturn}
+\label{class_task_wrapper_a13f271283f0c448173aab61e46c90d9e} 
+\index{TaskWrapper$<$ T $>$@{TaskWrapper$<$ T $>$}!set\_priority@{set\_priority}}
+\index{set\_priority@{set\_priority}!TaskWrapper$<$ T $>$@{TaskWrapper$<$ T $>$}}
+\doxysubsubsection{set\_priority()}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \textbf{ Task\+Wrapper}$<$ T $>$\+::set\+\_\+priority (\begin{DoxyParamCaption}\item[{UBase\+Type\+\_\+t}]{priority }\end{DoxyParamCaption})}
+
+
+
+Sets task priority. 
+
+Sets the priority of the task created when \doxyref{start\+\_\+task()}{p.}{class_task_wrapper_af4b89e13065324f8ed96b85d36ea25da} is called. If the task is currently running this function will delete it and re-\/create it.
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_task_wrapper_a8897a278526e8412ed1696263aaeec21} 
+\index{TaskWrapper$<$ T $>$@{TaskWrapper$<$ T $>$}!set\_stack\_size@{set\_stack\_size}}
+\index{set\_stack\_size@{set\_stack\_size}!TaskWrapper$<$ T $>$@{TaskWrapper$<$ T $>$}}
+\doxysubsubsection{set\_stack\_size()}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \textbf{ Task\+Wrapper}$<$ T $>$\+::set\+\_\+stack\+\_\+size (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{new\+\_\+stack\+\_\+size }\end{DoxyParamCaption})}
+
+
+
+Sets task stack size. 
+
+Sets the stack size of the task created when \doxyref{start\+\_\+task()}{p.}{class_task_wrapper_af4b89e13065324f8ed96b85d36ea25da} is called. If the task is currently running this function will delete it and re-\/create it.
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+\label{class_task_wrapper_af4b89e13065324f8ed96b85d36ea25da} 
+\index{TaskWrapper$<$ T $>$@{TaskWrapper$<$ T $>$}!start\_task@{start\_task}}
+\index{start\_task@{start\_task}!TaskWrapper$<$ T $>$@{TaskWrapper$<$ T $>$}}
+\doxysubsubsection{start\_task()}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+bool \textbf{ Task\+Wrapper}$<$ T $>$\+::start\+\_\+task}
+
+
+
+Start the task function. 
+
+Calls x\+Task\+Create\+Pinned\+To\+Core() from the free\+RTOS api and executes the task\+\_\+function member from the context of the newly created task.
+
+\begin{DoxyReturn}{Returns}
+True if task successfully started, false if it is already running 
+\end{DoxyReturn}
+\label{class_task_wrapper_abd8885b7d5d8042cfc33d0b653daf732} 
+\index{TaskWrapper$<$ T $>$@{TaskWrapper$<$ T $>$}!suspend\_task@{suspend\_task}}
+\index{suspend\_task@{suspend\_task}!TaskWrapper$<$ T $>$@{TaskWrapper$<$ T $>$}}
+\doxysubsubsection{suspend\_task()}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+bool \textbf{ Task\+Wrapper}$<$ T $>$\+::suspend\+\_\+task}
+
+
+
+Suspends task. 
+
+Calls v\+Task\+Suspend() from the free\+RTOS api.
+
+\begin{DoxyReturn}{Returns}
+True if task successfully suspended, false if task is not started 
+\end{DoxyReturn}
+\label{class_task_wrapper_af1172962d9a8cd0e2ced295d185c3d48} 
+\index{TaskWrapper$<$ T $>$@{TaskWrapper$<$ T $>$}!task\_trampoline@{task\_trampoline}}
+\index{task\_trampoline@{task\_trampoline}!TaskWrapper$<$ T $>$@{TaskWrapper$<$ T $>$}}
+\doxysubsubsection{task\_trampoline()}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \textbf{ Task\+Wrapper}$<$ T $>$\+::task\+\_\+trampoline (\begin{DoxyParamCaption}\item[{void $\ast$}]{arg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Launches task. 
+
+This function is used to get around the fact x\+Task\+Create\+Pinned\+To\+Core() from the freertos api requires a static task function. To prevent having to write the callback task from the context of a static function, this serves as a trampoline to launch the task.
+
+\begin{DoxyReturn}{Returns}
+void, nothing to return 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/development/esp/projects/idf\+\_\+4\+\_\+0/data\+\_\+control\+\_\+rework/components/task\+\_\+wrapper/Task\+Wrapper.\+hpp\end{DoxyCompactItemize}

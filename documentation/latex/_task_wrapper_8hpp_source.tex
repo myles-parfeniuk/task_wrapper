@@ -1,0 +1,241 @@
+\doxysection{Task\+Wrapper.\+hpp}
+\label{_task_wrapper_8hpp_source}\index{D:/development/esp/projects/idf\_4\_0/data\_control\_rework/components/task\_wrapper/TaskWrapper.hpp@{D:/development/esp/projects/idf\_4\_0/data\_control\_rework/components/task\_wrapper/TaskWrapper.hpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//esp-\/idf\ includes}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <freertos/FreeRTOS.h>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <freertos/task.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}esp\_err.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}esp\_log.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//standard\ library\ includes}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <functional>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}TaskConfigDefs.hpp"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T\ =\ \textcolor{keywordtype}{void}\ *>}
+\DoxyCodeLine{00024\ \textcolor{keyword}{class\ }TaskWrapper\ \{\ \ \ \ }
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00049\ \ \ TaskWrapper(std::function<\textcolor{keywordtype}{void}(\textcolor{keywordtype}{void})>\ task,\ \textcolor{keyword}{const}\ task\_config\_t\ task\_config\ =\ default\_config):}
+\DoxyCodeLine{00050\ \ \ \ \ task([task](T*)\ \{\ \textcolor{comment}{//initialized\ as\ lambda\ such\ that\ void(void)\ function\ can\ be\ saved\ to\ void(T\ *)\ member}}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ task();}
+\DoxyCodeLine{00052\ \ \ \ \ \}),}
+\DoxyCodeLine{00053\ \ \ \ \ task\_input(\textcolor{keyword}{nullptr}),}
+\DoxyCodeLine{00054\ \ \ \ \ task\_hdl(NULL),}
+\DoxyCodeLine{00055\ \ \ \ \ task\_config(task\_config),}
+\DoxyCodeLine{00056\ \ \ \ \ task\_active(\textcolor{keyword}{false})}
+\DoxyCodeLine{00057\ \ \ \{}
+\DoxyCodeLine{00058\ \ \ \}}
+\DoxyCodeLine{00059\ \ \ }
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00080\ \ \ TaskWrapper(std::function<\textcolor{keywordtype}{void}(T*)>\ task,\ T*\ task\_input,\ \textcolor{keyword}{const}\ task\_config\_t\ task\_config\ =\ default\_config):}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ task(task),}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ task\_input(task\_input),}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ task\_hdl(NULL),}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ task\_config(task\_config),}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ task\_active(false)}
+\DoxyCodeLine{00086\ \ \ \{}
+\DoxyCodeLine{00087\ \ \ \}}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \ \ }
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00101\ \ \ \textcolor{keywordtype}{bool}\ start\_task();}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00110\ \ \ \textcolor{keywordtype}{bool}\ delete\_task();}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00119\ \ \ \textcolor{keywordtype}{bool}\ suspend\_task();}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00128\ \ \ \textcolor{keywordtype}{bool}\ resume\_task();}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00137\ \ \ \textcolor{keywordtype}{bool}\ resume\_task\_from\_isr();}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00147\ \ \ \textcolor{keywordtype}{void}\ set\_stack\_size(uint32\_t\ new\_stack\_size);}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00157\ \ \ \textcolor{keywordtype}{void}\ set\_priority(UBaseType\_t\ priority);}
+\DoxyCodeLine{00158\ }
+\DoxyCodeLine{00166\ \ \ uint16\_t\ get\_high\_water\_mark();}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00176\ \ \ TaskHandle\_t\ \&get\_task\_handle();}
+\DoxyCodeLine{00177\ }
+\DoxyCodeLine{00178\ }
+\DoxyCodeLine{00179\ \ \ \textcolor{keywordtype}{bool}\ is\_active();\ }
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00181\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00182\ }
+\DoxyCodeLine{00191\ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ task\_trampoline(\textcolor{keywordtype}{void}\ *arg);}
+\DoxyCodeLine{00192\ }
+\DoxyCodeLine{00193\ \ \ std::function<void(T\ *)>\ task;\ }
+\DoxyCodeLine{00194\ \ \ T\ *task\_input;\ }
+\DoxyCodeLine{00195\ \ \ TaskHandle\_t\ task\_hdl;\ }
+\DoxyCodeLine{00196\ \ \ task\_config\_t\ task\_config;\ }
+\DoxyCodeLine{00197\ \ \ \textcolor{keywordtype}{bool}\ task\_active;\ }
+\DoxyCodeLine{00198\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{char}*\ TAG\ =\ \textcolor{stringliteral}{"{}TaskWrapper"{}};\ }
+\DoxyCodeLine{00199\ \};}
+\DoxyCodeLine{00200\ }
+\DoxyCodeLine{00201\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00202\ \textcolor{keywordtype}{void}\ TaskWrapper<T>::task\_trampoline(\textcolor{keywordtype}{void}\ *arg)}
+\DoxyCodeLine{00203\ \{}
+\DoxyCodeLine{00204\ \ \ \textcolor{comment}{//cast\ void\ pointer\ to\ TaskWrapper\ pointer}}
+\DoxyCodeLine{00205\ \ \ TaskWrapper*\ local\_task\ =\ \textcolor{keyword}{static\_cast<}TaskWrapper*\textcolor{keyword}{>}(arg);}
+\DoxyCodeLine{00206\ \ \ \textcolor{comment}{//call\ task\ function\ and\ pass\ user\ set\ input\ parameter}}
+\DoxyCodeLine{00207\ \ \ local\_task-\/>task(local\_task-\/>task\_input);}
+\DoxyCodeLine{00208\ \ \ \textcolor{comment}{//delete\ task\ if\ it\ completes\ \ }}
+\DoxyCodeLine{00209\ \ \ local\_task-\/>delete\_task();}
+\DoxyCodeLine{00210\ \}}
+\DoxyCodeLine{00211\ }
+\DoxyCodeLine{00212\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00213\ \textcolor{keywordtype}{bool}\ TaskWrapper<T>::start\_task()}
+\DoxyCodeLine{00214\ \{}
+\DoxyCodeLine{00215\ \ \ \textcolor{comment}{//if\ task\ is\ not\ started}}
+\DoxyCodeLine{00216\ \ \ \textcolor{keywordflow}{if}\ (task\_hdl\ ==\ NULL)\ }
+\DoxyCodeLine{00217\ \ \ \{}
+\DoxyCodeLine{00218\ \ \ \ \ \textcolor{comment}{//create\ task}}
+\DoxyCodeLine{00219\ \ \ \ \ xTaskCreatePinnedToCore(\&task\_trampoline,\ \textcolor{stringliteral}{"{}task"{}},\ task\_config.stack\_size,\ \textcolor{keyword}{this},\ task\_config.priority,\ \&task\_hdl,\ task\_config.core\_id);}
+\DoxyCodeLine{00220\ \ \ \ \ task\_active\ =\ \textcolor{keyword}{true};\ }
+\DoxyCodeLine{00221\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};\ }
+\DoxyCodeLine{00222\ \ \ \}}
+\DoxyCodeLine{00223\ \ \ }
+\DoxyCodeLine{00224\ \ \ \textcolor{keywordflow}{if}\ (task\_config.logging\_en)}
+\DoxyCodeLine{00225\ \ \ \ \ ESP\_LOGE(TAG,\ \textcolor{stringliteral}{"{}\%s\ -\/>\ task\ already\ started"{}},\ task\_config.name);}
+\DoxyCodeLine{00226\ }
+\DoxyCodeLine{00227\ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00228\ \}}
+\DoxyCodeLine{00229\ }
+\DoxyCodeLine{00230\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00231\ \textcolor{keywordtype}{bool}\ TaskWrapper<T>::delete\_task()}
+\DoxyCodeLine{00232\ \{}
+\DoxyCodeLine{00233\ \ \ \textcolor{comment}{//if\ task\ is\ started}}
+\DoxyCodeLine{00234\ \ \ \textcolor{keywordflow}{if}\ (\&task\_hdl\ !=\ NULL)\ \{}
+\DoxyCodeLine{00235\ \ \ \ \ \textcolor{comment}{//delete\ task}}
+\DoxyCodeLine{00236\ \ \ \ \ task\_active\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00237\ \ \ \ \ vTaskDelete(task\_hdl);\ }
+\DoxyCodeLine{00238\ \ \ \ \ task\_hdl\ =\ NULL;}
+\DoxyCodeLine{00239\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00240\ \ \ \}}
+\DoxyCodeLine{00241\ }
+\DoxyCodeLine{00242\ \ \ \textcolor{keywordflow}{if}\ (task\_config.logging\_en)}
+\DoxyCodeLine{00243\ \ \ \ \ ESP\_LOGE(TAG,\ \textcolor{stringliteral}{"{}\%s\ -\/>\ task\ not\ started"{}},\ task\_config.name);}
+\DoxyCodeLine{00244\ }
+\DoxyCodeLine{00245\ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00246\ \}}
+\DoxyCodeLine{00247\ }
+\DoxyCodeLine{00248\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00249\ \textcolor{keywordtype}{bool}\ TaskWrapper<T>::suspend\_task()}
+\DoxyCodeLine{00250\ \{}
+\DoxyCodeLine{00251\ \ \ \textcolor{comment}{//if\ task\ is\ started}}
+\DoxyCodeLine{00252\ \ \ \textcolor{keywordflow}{if}\ (\&task\_hdl\ !=\ NULL)\ \{}
+\DoxyCodeLine{00253\ \ \ \ \ \textcolor{comment}{//suspend\ task}}
+\DoxyCodeLine{00254\ \ \ \ \ task\_active\ =\ \textcolor{keyword}{false};\ }
+\DoxyCodeLine{00255\ \ \ \ \ vTaskSuspend(task\_hdl);}
+\DoxyCodeLine{00256\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00257\ \ \ \}}
+\DoxyCodeLine{00258\ }
+\DoxyCodeLine{00259\ \ \ \textcolor{keywordflow}{if}\ (task\_config.logging\_en)}
+\DoxyCodeLine{00260\ \ \ \ \ ESP\_LOGE(TAG,\ \textcolor{stringliteral}{"{}\%s\ -\/>\ task\ not\ started"{}},\ task\_config.name);}
+\DoxyCodeLine{00261\ }
+\DoxyCodeLine{00262\ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00263\ \}}
+\DoxyCodeLine{00264\ }
+\DoxyCodeLine{00265\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00266\ \textcolor{keywordtype}{bool}\ TaskWrapper<T>::resume\_task()}
+\DoxyCodeLine{00267\ \{}
+\DoxyCodeLine{00268\ \ \ \textcolor{comment}{//if\ task\ is\ started}}
+\DoxyCodeLine{00269\ \ \ \textcolor{keywordflow}{if}\ (\&task\_hdl\ !=\ NULL)\ \{}
+\DoxyCodeLine{00270\ \ \ \ \ \textcolor{comment}{//resume\ task}}
+\DoxyCodeLine{00271\ \ \ \ \ vTaskResume(task\_hdl);}
+\DoxyCodeLine{00272\ \ \ \ \ task\_active\ =\ \textcolor{keyword}{true};\ }
+\DoxyCodeLine{00273\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00274\ \ \ \}}
+\DoxyCodeLine{00275\ }
+\DoxyCodeLine{00276\ \ \ \textcolor{keywordflow}{if}\ (task\_config.logging\_en)}
+\DoxyCodeLine{00277\ \ \ \ \ ESP\_LOGE(TAG,\ \textcolor{stringliteral}{"{}\%s\ -\/>\ task\ not\ started"{}},\ task\_config.name);}
+\DoxyCodeLine{00278\ }
+\DoxyCodeLine{00279\ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00280\ \}}
+\DoxyCodeLine{00281\ }
+\DoxyCodeLine{00282\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00283\ \textcolor{keywordtype}{bool}\ TaskWrapper<T>::resume\_task\_from\_isr()}
+\DoxyCodeLine{00284\ \{}
+\DoxyCodeLine{00285\ \ \ BaseType\_t\ xHigherPriorityTaskWoken\ =\ pdFALSE;}
+\DoxyCodeLine{00286\ \ \ \textcolor{comment}{//if\ task\ is\ started}}
+\DoxyCodeLine{00287\ \ \ \textcolor{keywordflow}{if}\ (\&task\_hdl\ !=\ NULL)\ \{}
+\DoxyCodeLine{00288\ \ \ \ \ \textcolor{comment}{//resume\ task}}
+\DoxyCodeLine{00289\ \ \ \ \ xHigherPriorityTaskWoken\ =\ xTaskResumeFromISR(task\_hdl);}
+\DoxyCodeLine{00290\ \ \ \ \ \textcolor{keywordflow}{if}(xHigherPriorityTaskWoken\ ==\ pdTRUE)}
+\DoxyCodeLine{00291\ \ \ \ \ \{}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \textcolor{comment}{//Perform\ a\ context\ switch\ so\ this\ interrupt\ returns\ directly\ to\ the\ unblocked\ task}}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ portYIELD\_FROM\_ISR(xHigherPriorityTaskWoken);}
+\DoxyCodeLine{00294\ \ \ \ \ \}}
+\DoxyCodeLine{00295\ \ \ \ \ task\_active\ =\ \textcolor{keyword}{true};\ }
+\DoxyCodeLine{00296\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00297\ \ \ \}}
+\DoxyCodeLine{00298\ }
+\DoxyCodeLine{00299\ \ \ \textcolor{keywordflow}{if}\ (task\_config.logging\_en)}
+\DoxyCodeLine{00300\ \ \ \ \ ESP\_LOGE(TAG,\ \textcolor{stringliteral}{"{}\%s\ -\/>\ task\ not\ started"{}},\ task\_config.name);}
+\DoxyCodeLine{00301\ }
+\DoxyCodeLine{00302\ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00303\ }
+\DoxyCodeLine{00304\ \}}
+\DoxyCodeLine{00305\ }
+\DoxyCodeLine{00306\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00307\ uint16\_t\ TaskWrapper<T>::get\_high\_water\_mark()}
+\DoxyCodeLine{00308\ \{}
+\DoxyCodeLine{00309\ \ \ \textcolor{comment}{//if\ task\ started}}
+\DoxyCodeLine{00310\ \ \ \textcolor{keywordflow}{if}\ (task\_hdl\ !=\ NULL)}
+\DoxyCodeLine{00311\ \ \ \ \ \textcolor{comment}{//get\ minimum\ free\ stack\ size}}
+\DoxyCodeLine{00312\ \ \ \ \ \textcolor{keywordflow}{return}\ (uint16\_t)uxTaskGetStackHighWaterMark(task\_hdl);}
+\DoxyCodeLine{00313\ }
+\DoxyCodeLine{00314\ \ \ \textcolor{keywordflow}{if}\ (task\_config.logging\_en)}
+\DoxyCodeLine{00315\ \ \ \ \ ESP\_LOGE(TAG,\ \textcolor{stringliteral}{"{}\%s\ -\/>\ task\ not\ started"{}},\ task\_config.name);}
+\DoxyCodeLine{00316\ }
+\DoxyCodeLine{00317\ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00318\ \}}
+\DoxyCodeLine{00319\ }
+\DoxyCodeLine{00320\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00321\ \textcolor{keywordtype}{void}\ TaskWrapper<T>::set\_stack\_size(uint32\_t\ new\_stack\_size)}
+\DoxyCodeLine{00322\ \{}
+\DoxyCodeLine{00323\ \ \ \textcolor{comment}{//set\ new\ stack\ size}}
+\DoxyCodeLine{00324\ \ \ task\_config.stack\_size\ =\ new\_stack\_size;\ }
+\DoxyCodeLine{00325\ }
+\DoxyCodeLine{00326\ \ \ \textcolor{comment}{//if\ task\ is\ started}}
+\DoxyCodeLine{00327\ \ \ \textcolor{keywordflow}{if}\ (task\_hdl\ !=\ NULL)\ \{}
+\DoxyCodeLine{00328\ \ \ \ \ \textcolor{comment}{//re-\/create\ task\ such\ that\ new\ stack\ size\ takes\ effect}}
+\DoxyCodeLine{00329\ \ \ \ \ delete\_task();}
+\DoxyCodeLine{00330\ \ \ \ \ xTaskCreatePinnedToCore(\&task\_trampoline,\ \textcolor{stringliteral}{"{}task"{}},\ task\_config.stack\_size,\ \textcolor{keyword}{this},\ task\_config.priority,\ \&task\_hdl,\ task\_config.core\_id);}
+\DoxyCodeLine{00331\ \ \ \}}
+\DoxyCodeLine{00332\ \}}
+\DoxyCodeLine{00333\ }
+\DoxyCodeLine{00334\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00335\ \textcolor{keywordtype}{void}\ TaskWrapper<T>::\ set\_priority(UBaseType\_t\ new\_priority)}
+\DoxyCodeLine{00336\ \{}
+\DoxyCodeLine{00337\ \ \ \textcolor{comment}{//set\ new\ priority}}
+\DoxyCodeLine{00338\ \ \ task\_config.priority\ =\ new\_priority;\ }
+\DoxyCodeLine{00339\ }
+\DoxyCodeLine{00340\ \ \ \textcolor{comment}{//if\ task\ is\ started}}
+\DoxyCodeLine{00341\ \ \ \textcolor{keywordflow}{if}\ (task\_hdl\ !=\ NULL)\ \{}
+\DoxyCodeLine{00342\ \ \ \ \ \textcolor{comment}{//re-\/create\ task\ such\ that\ new\ priority\ takes\ effect}}
+\DoxyCodeLine{00343\ \ \ \ \ delete\_task();}
+\DoxyCodeLine{00344\ \ \ \ \ xTaskCreatePinnedToCore(\&task\_trampoline,\ \textcolor{stringliteral}{"{}task"{}},\ task\_config.stack\_size,\ \textcolor{keyword}{this},\ task\_config.priority,\ \&task\_hdl,\ task\_config.core\_id);}
+\DoxyCodeLine{00345\ \ \ \}}
+\DoxyCodeLine{00346\ }
+\DoxyCodeLine{00347\ \}}
+\DoxyCodeLine{00348\ }
+\DoxyCodeLine{00349\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00350\ TaskHandle\_t\ \&TaskWrapper<T>::get\_task\_handle()}
+\DoxyCodeLine{00351\ \{}
+\DoxyCodeLine{00352\ \ \ \textcolor{keywordflow}{return}\ task\_hdl;}
+\DoxyCodeLine{00353\ \}}
+\DoxyCodeLine{00354\ }
+\DoxyCodeLine{00355\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00356\ \textcolor{keywordtype}{bool}\ TaskWrapper<T>::is\_active()}
+\DoxyCodeLine{00357\ \{}
+\DoxyCodeLine{00358\ \ \ \textcolor{keywordflow}{return}\ task\_active;}
+\DoxyCodeLine{00359\ \}}
+
+\end{DoxyCode}
