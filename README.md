@@ -108,7 +108,7 @@ To instantiate a TaskWrapper object, first declare a task function, then pass it
 
       //in MyClass.cpp
       MyClass::MyClass():
-      task(task(&MyClass::task_function, this))
+      task(std::bind(&MyClass::task_function, this))
       {
         task.start_task(); //starts task when MyClass object is created (optional)
       }
