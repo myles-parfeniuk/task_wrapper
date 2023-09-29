@@ -231,7 +231,7 @@ template <typename T>
 bool TaskWrapper<T>::delete_task()
 {
   //if task is started
-  if (&task_hdl != NULL) {
+  if (task_hdl != NULL) {
     //delete task
     task_active = false;
     vTaskDelete(task_hdl); 
@@ -249,7 +249,7 @@ template <typename T>
 bool TaskWrapper<T>::suspend_task()
 {
   //if task is started
-  if (&task_hdl != NULL) {
+  if (task_hdl != NULL) {
     //suspend task
     task_active = false; 
     vTaskSuspend(task_hdl);
@@ -266,7 +266,7 @@ template <typename T>
 bool TaskWrapper<T>::resume_task()
 {
   //if task is started
-  if (&task_hdl != NULL) {
+  if (task_hdl != NULL) {
     //resume task
     vTaskResume(task_hdl);
     task_active = true; 
@@ -284,7 +284,7 @@ bool TaskWrapper<T>::resume_task_from_isr()
 {
   BaseType_t xHigherPriorityTaskWoken = pdFALSE;
   //if task is started
-  if (&task_hdl != NULL) {
+  if (task_hdl != NULL) {
     //resume task
     xHigherPriorityTaskWoken = xTaskResumeFromISR(task_hdl);
     if(xHigherPriorityTaskWoken == pdTRUE)

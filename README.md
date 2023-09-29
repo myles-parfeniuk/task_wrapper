@@ -28,7 +28,7 @@
 <!-- ABOUT -->
 ## About
 
-TaskWrapper is a C++ based component written for esp-idf version 4.0, intended to simplify the creation and management of tasks within a C++ environment. 
+TaskWrapper is a C++ based component written for esp-idf version 5.0, intended to simplify the creation and management of tasks within a C++ environment. 
 It allows for the creation of TaskWrapper objects which are passed a task function at instantiation. 
 The TaskWrapper class interacts with the freeRTOS api, its public methods can be used to start, suspend, delete, and do various other things
 to the task the TaskWrapper object is managing. 
@@ -50,16 +50,6 @@ to the task the TaskWrapper object is managing.
    ```sh
    cd components
    git clone https://github.com/myles-parfeniuk/task_wrapper.git
-   ```
-
-
-3. You may have to edit project CMakeLists.txt file to include the components.  
-   
-   For example:  
-   ```sh
-   idf_component_register(SRC_DIRS "." 
-   INCLUDE_DIRS "" 
-   REQUIRES task_wrapper)
    ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
